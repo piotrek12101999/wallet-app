@@ -1,6 +1,10 @@
 import { IThemes } from './models/ui.interfaces';
 
 export const themes: IThemes = {
+  global: {
+    borderRadius: 8,
+    fontFamily: ''
+  },
   light: {
     background: '#fff',
     primaryColor: '#D1F7F7',

@@ -1,5 +1,5 @@
 import { auth, provider } from './actions';
-import { SIGN_OUT, SIGN_IN } from './types';
+import { SIGN_OUT, SIGN_IN, START_INITIALIZATION } from './types';
 import { IAuthInitialState, IAuthActions } from '../models/auth.interfaces';
 import { ThunkDispatch } from 'redux-thunk';
 
@@ -7,6 +7,7 @@ export const startListeningForAuthChanges = () => (
   dispatch: ThunkDispatch<IAuthInitialState, undefined, IAuthActions>
 ): void => {
   auth.onAuthStateChanged(user => {
+    dispatch({ type: START_INITIALIZATION });
     if (user) {
       const { uid, displayName, email, photoURL } = user;
 
@@ -28,4 +29,9 @@ export const signIn = () => async (
 
     dispatch({ type: SIGN_IN, payload: { uid, displayName, email, photoURL } });
   }
+};
+
+export const signOut = () => async (dispatch: ThunkDispatch<IAuthInitialState, undefined, IAuthActions>) => {
+  await auth.signOut();
+  dispatch({ type: SIGN_OUT });
 };

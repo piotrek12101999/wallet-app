@@ -1,6 +1,6 @@
-import { SIGN_IN, SIGN_OUT } from '../actions/types';
+import { SIGN_IN, SIGN_OUT, START_INITIALIZATION } from '../actions/types';
 
-interface IUser {
+export interface IUser {
   uid: string;
   photoURL: string | null;
   email: string | null;
@@ -16,9 +16,14 @@ interface ISignOutAction {
   type: typeof SIGN_OUT;
 }
 
-export type IAuthActions = ISignInAction | ISignOutAction;
+interface IStartInitialization {
+  type: typeof START_INITIALIZATION;
+}
+
+export type IAuthActions = ISignInAction | ISignOutAction | IStartInitialization;
 
 export interface IAuthInitialState {
+  isInitializing: boolean;
   isSignedIn: boolean;
   userData: IUser | null;
 }
