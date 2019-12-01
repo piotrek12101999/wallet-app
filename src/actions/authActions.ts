@@ -23,9 +23,14 @@ export const signIn = () => async (
 ): Promise<void> => {
   provider.addScope('https://www.googleapis.com/auth/userinfo.profile');
 
-  const { user } = await auth.signInWithPopup(provider);
-  if (user) {
+  const { user, additionalUserInfo } = await auth.signInWithPopup(provider);
+
+  if (user && additionalUserInfo) {
     const { uid, displayName, email, photoURL } = user;
+    const { isNewUser } = additionalUserInfo;
+
+    if (isNewUser) {
+    }
 
     dispatch({ type: SIGN_IN, payload: { uid, displayName, email, photoURL } });
   }
