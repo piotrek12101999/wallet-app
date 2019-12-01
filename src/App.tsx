@@ -7,9 +7,10 @@ import { IAppState } from './models/store.interfaces';
 import { history } from './history';
 import { themes } from './themes';
 
-import { Dashboard } from './components/Dashboard/Dashboard';
 import SignIn from './components/SignIn/SignIn';
 import { InitializingUser } from './components/InitializingUser/InitializingUser';
+import { Dashboard } from './components/Dashboard/Dashboard';
+import { BottomNavigation } from './components/BottomNavigation/BottomNavigation';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -45,6 +46,7 @@ const App: React.FC<AppProps> = ({ startListeningForAuthChanges, isSignedIn, isI
         {isInitializing && <InitializingUser />}
         <Router history={history}>
           <Route exact path="/" component={isSignedIn ? Dashboard : SignIn} />
+          {isSignedIn && <BottomNavigation />}
         </Router>
       </>
     </ThemeProvider>

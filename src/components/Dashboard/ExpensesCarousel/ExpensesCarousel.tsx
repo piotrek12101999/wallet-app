@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import TouchCarousel from 'react-touch-carousel';
+import { CarouselContainer, cardSize } from './CarouselContainer/CarouselContainer';
 
 const Stats = styled.div`
-  transform: translateY(50%);
-  margin-top: -25px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 343px;
   margin-left: auto;
   margin-right: auto;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
@@ -69,28 +72,65 @@ const ProgressBar = styled.div<{ width: string; left: boolean }>`
   background: ${props => (props.left ? '#F66C7B' : '#4BD1DC')};
 `;
 
+const StyledCard = styled.div`
+  height: 100%;
+  margin-top: 16px;
+  -webkit-tap-highlight-color: transparent;
+
+  .expense-container {
+    width: 350.5px;
+    margin-bottom: 16px;
+  }
+`;
+
+const Expense = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  width: 343px;
+  height: 100px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  border-radius: 8px;
+  background: white;
+`;
+
 export const ExpensesCarousel: React.FC = () => {
+  const renderCard = (index: number, modIndex: number): JSX.Element => {
+    return (
+      <StyledCard key={index}>
+        <div className="expense-container">
+          <Stats>
+            <div>
+              <p className="day"> Today </p>
+              <div>
+                <div>
+                  <p className="spent"> Spent </p>
+                  <p className="ammount --minus"> : $280</p>
+                </div>
+                <div>
+                  <p className="spent"> Income </p>
+                  <p className="ammount --plus"> : $280</p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <ProgressBar width="33%" left />
+              <ProgressBar width="66%" left={false} />
+            </div>
+          </Stats>
+        </div>
+      </StyledCard>
+    );
+  };
+
   return (
-    <div>
-      <Stats>
-        <div>
-          <p className="day"> Today </p>
-          <div>
-            <div>
-              <p className="spent"> Spent </p>
-              <p className="ammount --minus"> : $280</p>
-            </div>
-            <div>
-              <p className="spent"> Income </p>
-              <p className="ammount --plus"> : $280</p>
-            </div>
-          </div>
-        </div>
-        <div>
-          <ProgressBar width="33%" left />
-          <ProgressBar width="66%" left={false} />
-        </div>
-      </Stats>
-    </div>
+    <TouchCarousel
+      component={CarouselContainer}
+      cardSize={cardSize}
+      cardCount={3}
+      cardPadCount={0}
+      renderCard={renderCard}
+      loop={false}
+    />
   );
 };

@@ -12,18 +12,6 @@ const StyledContainer = styled(Container)`
   background: ${({ theme }) => theme.primaryColor};
 `;
 
-const TransactionsContainer = styled(Container)`
-  padding-top: 60px;
-  background: #f8f9f9;
-
-  & > .title {
-    font-size: 19px;
-    font-weight: 600;
-    margin: unset;
-    color: #1f3077;
-  }
-`;
-
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -31,6 +19,18 @@ const GridContainer = styled.div`
 
   & > div {
     border-radius: ${({ theme }) => `${theme.borderRadius}px`};
+  }
+`;
+
+const TransactionsContainer = styled(Container)`
+  background: #f8f9f9;
+  margin-bottom: 56px !important;
+
+  & > .title {
+    font-size: 19px;
+    font-weight: 600;
+    margin: unset;
+    color: #1f3077;
   }
 `;
 
@@ -44,8 +44,8 @@ export const Dashboard: React.FC = () => {
           <PaymentActions actionType="addExpense" />
           <PaymentActions actionType="addIncome" />
         </GridContainer>
-        <ExpensesCarousel />
       </StyledContainer>
+      <ExpensesCarousel />
       <TransactionsContainer>
         <p className="title"> Last transactions </p>
         <Transactions />
