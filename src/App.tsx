@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { MuiThemeProvider, createMuiTheme, Theme } from '@material-ui/core';
+import { blueGrey, red } from '@material-ui/core/colors';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { startListeningForAuthChanges } from './actions/authActions';
 import { IAppState } from './models/store.interfaces';
@@ -38,18 +40,25 @@ const App: React.FC<AppProps> = ({ startListeningForAuthChanges, isSignedIn, isI
     startListeningForAuthChanges();
   }, [startListeningForAuthChanges]);
   const theme = isDarkThemeEnabled ? 'dark' : 'light';
+  const MUITheme: Theme = createMuiTheme({
+    palette: {
+      primary: isDarkThemeEnabled ? blueGrey : red
+    }
+  });
 
   return (
-    <ThemeProvider theme={{ ...themes.global, ...themes[theme] }}>
-      <>
-        <GlobalStyle />
-        {isInitializing && <InitializingUser />}
-        <Router history={history}>
-          <Route exact path="/" component={isSignedIn ? Dashboard : SignIn} />
-          {isSignedIn && <BottomNavigation />}
-        </Router>
-      </>
-    </ThemeProvider>
+    <MuiThemeProvider theme={MUITheme}>
+      <ThemeProvider theme={{ ...themes.global, ...themes[theme] }}>
+        <>
+          <GlobalStyle />
+          {isInitializing && <InitializingUser />}
+          <Router history={history}>
+            <Route exact path="/" component={isSignedIn ? Dashboard : SignIn} />
+            {isSignedIn && <BottomNavigation />}
+          </Router>
+        </>
+      </ThemeProvider>
+    </MuiThemeProvider>
   );
 };
 

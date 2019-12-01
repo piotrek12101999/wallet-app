@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Avatar, Menu, MenuItem, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { ExitToAppRounded, Brightness4Rounded } from '@material-ui/icons';
 import { signOut } from '../../../actions/authActions';
+import { toggleTheme } from '../../../actions/uiActions';
 
 const TopNavContainer = styled.div`
   display: flex;
@@ -34,9 +35,10 @@ const TopNavContainer = styled.div`
 
 interface ITopNavigation {
   signOut: () => void;
+  toggleTheme: any;
 }
 
-const TopNavigation: React.FC<ITopNavigation> = ({ signOut }) => {
+const TopNavigation: React.FC<ITopNavigation> = ({ signOut, toggleTheme }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -45,6 +47,12 @@ const TopNavigation: React.FC<ITopNavigation> = ({ signOut }) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleThemeToggle = () => {
+    // TODO: fix
+    toggleTheme(false);
+    handleClose();
   };
 
   const handleSignOut = () => {
@@ -70,7 +78,7 @@ const TopNavigation: React.FC<ITopNavigation> = ({ signOut }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose} component="div">
+        <MenuItem onClick={handleThemeToggle} component="div">
           <ListItem>
             <ListItemIcon>
               <Brightness4Rounded />
@@ -91,4 +99,4 @@ const TopNavigation: React.FC<ITopNavigation> = ({ signOut }) => {
   );
 };
 
-export default connect(null, { signOut })(TopNavigation);
+export default connect(null, { signOut, toggleTheme })(TopNavigation);

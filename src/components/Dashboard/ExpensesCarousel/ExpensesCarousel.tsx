@@ -83,17 +83,6 @@ const StyledCard = styled.div`
   }
 `;
 
-const Expense = styled.div`
-  margin-left: auto;
-  margin-right: auto;
-  width: 343px;
-  height: 100px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
-  padding: 10px;
-  border-radius: 8px;
-  background: white;
-`;
-
 export const ExpensesCarousel: React.FC = () => {
   const renderCard = (index: number, modIndex: number): JSX.Element => {
     return (

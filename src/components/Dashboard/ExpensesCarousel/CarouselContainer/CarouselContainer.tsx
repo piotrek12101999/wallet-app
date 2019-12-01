@@ -4,7 +4,7 @@ import cx from 'classnames';
 import NonPassiveTouchTarget from './NonPassiveTouchTarget';
 
 const StyledCarouselContainer = styled(NonPassiveTouchTarget)`
-  background: #f8f9f9;
+  background: linear-gradient(180deg, #d1f7f7 50%, #f8f9f9 50%);
   position: relative;
   max-width: 960px;
   margin: 0 auto;
