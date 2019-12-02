@@ -2,6 +2,7 @@ import { SIGN_IN, SIGN_OUT, START_INITIALIZATION } from '../actions/types';
 
 export interface IUser {
   uid: string;
+  document_id: string;
   photoURL: string | null;
   email: string | null;
   displayName: string | null;

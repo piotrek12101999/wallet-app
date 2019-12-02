@@ -24,6 +24,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   *, *::before, *::after {
+    transition: color, background ease-in-out .3s;
     box-sizing: border-box;
   }
 `;

@@ -25,5 +25,8 @@
   },
   "include": [
     "src"
+  ],
+  "exclude": [
+    "src/functions/functions/node_modules"
   ]
 }

@@ -6,37 +6,27 @@ import { ThunkDispatch } from 'redux-thunk';
 export const startListeningForAuthChanges = () => (
   dispatch: ThunkDispatch<IAuthInitialState, undefined, IAuthActions>
 ): void => {
-  auth.onAuthStateChanged(user => {
+  auth.onAuthStateChanged(async user => {
     dispatch({ type: START_INITIALIZATION });
     if (user) {
       const { uid, displayName, email, photoURL } = user;
 
-      dispatch({ type: SIGN_IN, payload: { uid, displayName, email, photoURL } });
+      dispatch({ type: SIGN_IN, payload: { uid, document_id: 's', displayName, email, photoURL } });
     } else {
       dispatch({ type: SIGN_OUT });
     }
   });
 };
 
-export const signIn = () => async (
-  dispatch: ThunkDispatch<IAuthInitialState, undefined, IAuthActions>
-): Promise<void> => {
+export const signIn = () => async (): Promise<void> => {
   provider.addScope('https://www.googleapis.com/auth/userinfo.profile');
 
-  const { user, additionalUserInfo } = await auth.signInWithPopup(provider);
-
-  if (user && additionalUserInfo) {
-    const { uid, displayName, email, photoURL } = user;
-    const { isNewUser } = additionalUserInfo;
-
-    if (isNewUser) {
-    }
-
-    dispatch({ type: SIGN_IN, payload: { uid, displayName, email, photoURL } });
-  }
+  await auth.signInWithPopup(provider);
 };
 
-export const signOut = () => async (dispatch: ThunkDispatch<IAuthInitialState, undefined, IAuthActions>) => {
+export const signOut = () => async (
+  dispatch: ThunkDispatch<IAuthInitialState, undefined, IAuthActions>
+): Promise<void> => {
   await auth.signOut();
   dispatch({ type: SIGN_OUT });
 };

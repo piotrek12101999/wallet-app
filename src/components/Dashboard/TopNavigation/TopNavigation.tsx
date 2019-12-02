@@ -5,6 +5,7 @@ import { Avatar, Menu, MenuItem, ListItem, ListItemIcon, ListItemText } from '@m
 import { ExitToAppRounded, Brightness4Rounded } from '@material-ui/icons';
 import { signOut } from '../../../actions/authActions';
 import { toggleTheme } from '../../../actions/uiActions';
+import { IAppState } from '../../../models/store.interfaces';
 
 const TopNavContainer = styled.div`
   display: flex;
@@ -35,10 +36,11 @@ const TopNavContainer = styled.div`
 
 interface ITopNavigation {
   signOut: () => void;
-  toggleTheme: any;
+  toggleTheme: (isLightThemeEnabled: boolean) => void;
+  isDarkThemeEnabled: boolean;
 }
 
-const TopNavigation: React.FC<ITopNavigation> = ({ signOut, toggleTheme }) => {
+const TopNavigation: React.FC<ITopNavigation> = ({ signOut, isDarkThemeEnabled, toggleTheme }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -50,8 +52,7 @@ const TopNavigation: React.FC<ITopNavigation> = ({ signOut, toggleTheme }) => {
   };
 
   const handleThemeToggle = () => {
-    // TODO: fix
-    toggleTheme(false);
+    toggleTheme(!isDarkThemeEnabled);
     handleClose();
   };
 
@@ -99,4 +100,10 @@ const TopNavigation: React.FC<ITopNavigation> = ({ signOut, toggleTheme }) => {
   );
 };
 
-export default connect(null, { signOut, toggleTheme })(TopNavigation);
+const mapStateToProps = (state: IAppState) => {
+  return {
+    isDarkThemeEnabled: state.ui.isDarkThemeEnabled
+  };
+};
+
+export default connect(mapStateToProps, { signOut, toggleTheme })(TopNavigation);
