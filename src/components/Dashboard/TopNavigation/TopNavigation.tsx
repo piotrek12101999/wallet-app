@@ -71,7 +71,7 @@ const TopNavigation: React.FC<ITopNavigation> = ({ signOut, isDarkThemeEnabled, 
       return photo;
     }
 
-    return '';
+    return 'https://icon-library.net/images/default-profile-icon/default-profile-icon-24.jpg';
   };
 
   return (

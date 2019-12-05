@@ -84,7 +84,7 @@ const StyledCard = styled.div`
 `;
 
 export const ExpensesCarousel: React.FC = () => {
-  const renderCard = (index: number, modIndex: number): JSX.Element => {
+  const renderCard = (index: number): JSX.Element => {
     return (
       <StyledCard key={index}>
         <div className="expense-container">
