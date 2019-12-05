@@ -11,7 +11,7 @@ const TransactionContainer = styled.tr`
 
     p {
       margin: unset;
-      color: #1f3077;
+      color: ${({ theme }) => theme.fontColor};
       font-weight: 600;
       font-size: 18px;
     }
@@ -22,7 +22,7 @@ const TransactionContainer = styled.tr`
 
     & > span {
       font-size: 14px;
-      color: #858eb4;
+      color: ${({ theme }) => theme.secondaryFontColor};
     }
   }
 
@@ -31,7 +31,7 @@ const TransactionContainer = styled.tr`
 
     & > p {
       margin: unset;
-      color: #1f3077;
+      color: ${({ theme }) => theme.fontColor};
       font-weight: 600;
       font-size: 18px;
     }

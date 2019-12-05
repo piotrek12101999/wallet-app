@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Doughnut } from 'react-chartjs-2';
+import image from '../../../assets/dashboard-image.png';
 
 const AccountStatusContainer = styled.div<{ height: string }>`
   padding: 25px;
   grid-column: 1 / -1;
-  background: white;
+  background: ${({ theme }) => theme.gridColor};
   height: ${props => props.height};
   transition: height 0.3s ease-in-out;
   overflow: hidden;
@@ -17,12 +18,12 @@ const AccountStatusContainer = styled.div<{ height: string }>`
 
     & > .balance {
       .subtitle {
-        color: #858eb4;
+        color: ${({ theme }) => theme.secondaryFontColor};
       }
 
       .title {
         margin: 0;
-        color: #1f3077;
+        color: ${({ theme }) => theme.fontColor};
         font-weight: 600;
         font-size: 28px;
       }
@@ -61,11 +62,7 @@ export const AccountStatus: React.FC = () => {
           <span className="subtitle"> Total balance </span>
           <p className="title"> $3200,00 </p>
         </div>
-        <img
-          className="img"
-          src="https://cdn.dribbble.com/users/1537480/screenshots/4666598/expert_community.png"
-          alt="expenses"
-        />
+        <img className="img" src={image} alt="expenses" />
       </div>
       <div className="chart" onClick={event => event.stopPropagation()}>
         <Doughnut data={data} />

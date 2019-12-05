@@ -12,7 +12,7 @@ const Stats = styled.div`
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
   padding: 10px;
   border-radius: 10px;
-  background: white;
+  background: ${({ theme }) => theme.gridColor};
 
   & > p {
     margin: 0;
@@ -55,7 +55,7 @@ const Stats = styled.div`
         & > .spent {
           font-weight: 300;
           font-size: 15px;
-          color: #8089b2;
+          color: ${({ theme }) => theme.secondaryFontColor};
         }
       }
     }

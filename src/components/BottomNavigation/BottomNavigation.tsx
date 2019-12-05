@@ -9,10 +9,11 @@ const StyledBottomNavigation = styled(BottomNav)`
   bottom: 0;
   left: 0;
   z-index: 1;
+  background: ${({ theme }) => `${theme.navColor} !important`};
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
 `;
 
-export const BottomNavigation = () => {
+export const BottomNavigation: React.FC = () => {
   const [value, setValue] = useState<string>('recents');
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {

@@ -9,7 +9,7 @@ import { ExpensesCarousel } from './ExpensesCarousel/ExpensesCarousel';
 import { Transactions } from './Transactions/Transactions';
 
 const StyledContainer = styled(Container)`
-  background: ${({ theme }) => theme.primaryColor};
+  background: ${({ theme }) => theme.backgroundOnPrimaryColor};
 `;
 
 const GridContainer = styled.div`
@@ -23,14 +23,14 @@ const GridContainer = styled.div`
 `;
 
 const TransactionsContainer = styled(Container)`
-  background: #f8f9f9;
+  background: ${({ theme }) => theme.background};
   margin-bottom: 56px !important;
 
   & > .title {
     font-size: 19px;
     font-weight: 600;
     margin: unset;
-    color: #1f3077;
+    color: ${({ theme }) => theme.fontColor};
   }
 `;
 

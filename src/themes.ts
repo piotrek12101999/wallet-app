@@ -1,20 +1,46 @@
 import { IThemes } from './models/ui.interfaces';
+import { Color } from '@material-ui/core';
+
+export const lightThemeColor: Color = {
+  50: '#dff7f9',
+  100: '#7edde5',
+  200: '#49ceda',
+  300: '#49ceda',
+  400: '#1dc4d3',
+  500: '#00bacd',
+  600: '#00aaba',
+  700: '#0095a1',
+  800: '#008189',
+  900: '#005e5f',
+  A100: '#1dc4d3',
+  A200: '#1dc4d3',
+  A400: '#1dc4d3',
+  A700: '#1dc4d3'
+};
 
 export const themes: IThemes = {
   global: {
     borderRadius: 8,
-    fontFamily: ''
+    fontFamily: '"Overpass",sans-serif'
   },
   light: {
-    background: '#fff',
-    primaryColor: '#D1F7F7',
-    fontFamily: '',
-    fontColor: '#1F3077'
+    background: '#f8f9f9',
+    primaryColor: '#1DC5D3',
+    navColor: '#ffffff',
+    gridColor: '#ffffff',
+    backgroundOnPrimaryColor: '#D1F7F7',
+    secondaryColor: '#F4465A',
+    fontColor: '#1F3077',
+    secondaryFontColor: '#858eb4'
   },
   dark: {
-    background: '#000',
-    primaryColor: '#121212',
-    fontFamily: '',
-    fontColor: '#fff'
+    background: '#121212',
+    primaryColor: '#OOF69B',
+    navColor: '#2D2D2D',
+    gridColor: '#1E1E1E',
+    backgroundOnPrimaryColor: '#121212',
+    secondaryColor: '#2058F1',
+    fontColor: '#fff',
+    secondaryFontColor: '#A09FA5'
   }
 };

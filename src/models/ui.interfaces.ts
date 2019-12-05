@@ -8,8 +8,12 @@ interface IGlobalSettingTheme {
 interface ITheme {
   background: string;
   primaryColor: string;
-  fontFamily: string;
+  navColor: string;
+  gridColor: string;
+  backgroundOnPrimaryColor: string;
+  secondaryColor: string;
   fontColor: string;
+  secondaryFontColor: string;
 }
 
 export interface IThemes {
