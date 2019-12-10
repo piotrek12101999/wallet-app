@@ -44,7 +44,8 @@ const App: React.FC<AppProps> = ({ startListeningForAuthChanges, isSignedIn, isI
   const theme = isDarkThemeEnabled ? 'dark' : 'light';
   const MUITheme: Theme = createMuiTheme({
     palette: {
-      primary: isDarkThemeEnabled ? grey : lightThemeColor
+      primary: isDarkThemeEnabled ? grey : lightThemeColor,
+      type: isDarkThemeEnabled ? 'dark' : 'light'
     }
   });
 

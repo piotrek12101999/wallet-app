@@ -1,14 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Menu, MenuItem, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { ExitToAppRounded, Brightness4Rounded, Brightness7Rounded } from '@material-ui/icons';
-
-const StyledMenu = styled(Menu)`
-  & > .MuiPaper-root {
-    background: ${({ theme }) => theme.navColor};
-    color: ${({ theme }) => (theme.fontColor === '#fff' ? '#fff' : 'rgba(0,0,0,.54)')};
-  }
-`;
 
 interface IMenuList {
   anchorEl: HTMLElement | null;
@@ -25,21 +17,15 @@ export const MenuList: React.FC<IMenuList> = ({
   handleThemeToggle,
   handleSignOut
 }) => {
-  const renderAppropriateThemeListItem = (isDarkThemeEnabled: boolean): JSX.Element => {
-    const colorStyles = { color: isDarkThemeEnabled ? '#fff' : 'rgba(0,0,0,.54)' };
-
-    return (
-      <ListItem>
-        <ListItemIcon>
-          {isDarkThemeEnabled ? <Brightness4Rounded style={colorStyles} /> : <Brightness7Rounded style={colorStyles} />}
-        </ListItemIcon>
-        <ListItemText> {isDarkThemeEnabled ? 'Light' : 'Dark'} mode </ListItemText>
-      </ListItem>
-    );
-  };
+  const renderAppropriateThemeListItem = (isDarkThemeEnabled: boolean): JSX.Element => (
+    <ListItem>
+      <ListItemIcon>{isDarkThemeEnabled ? <Brightness7Rounded /> : <Brightness4Rounded />}</ListItemIcon>
+      <ListItemText> {isDarkThemeEnabled ? 'Light' : 'Dark'} mode </ListItemText>
+    </ListItem>
+  );
 
   return (
-    <StyledMenu
+    <Menu
       anchorEl={anchorEl}
       getContentAnchorEl={null}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
@@ -53,11 +39,11 @@ export const MenuList: React.FC<IMenuList> = ({
       <MenuItem onClick={handleSignOut} component="div">
         <ListItem>
           <ListItemIcon>
-            <ExitToAppRounded style={{ color: isDarkThemeEnabled ? '#fff' : 'rgba(0,0,0,.54)' }} />
+            <ExitToAppRounded />
           </ListItemIcon>
           <ListItemText>Sign out</ListItemText>
         </ListItem>
       </MenuItem>
-    </StyledMenu>
+    </Menu>
   );
 };

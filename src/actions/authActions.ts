@@ -1,17 +1,24 @@
+import { batch } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 import { auth, provider } from './actions';
+import { fetchUserDoc, fetchCollectionsData } from './fetchActions';
 import { SIGN_OUT, SIGN_IN, START_INITIALIZATION } from './types';
 import { IAuthInitialState, IAuthActions } from '../models/auth.interfaces';
-import { ThunkDispatch } from 'redux-thunk';
+import { IAppState } from '../models/store.interfaces';
 
 export const startListeningForAuthChanges = () => (
-  dispatch: ThunkDispatch<IAuthInitialState, undefined, IAuthActions>
+  dispatch: ThunkDispatch<IAppState, undefined, IAuthActions>
 ): void => {
   auth.onAuthStateChanged(async user => {
     dispatch({ type: START_INITIALIZATION });
     if (user) {
       const { uid, displayName, email, photoURL } = user;
 
-      dispatch({ type: SIGN_IN, payload: { uid, document_id: 's', displayName, email, photoURL } });
+      batch(() => {
+        dispatch({ type: SIGN_IN, payload: { uid, displayName, email, photoURL } });
+        dispatch(fetchUserDoc(uid));
+        dispatch(fetchCollectionsData(uid));
+      });
     } else {
       dispatch({ type: SIGN_OUT });
     }

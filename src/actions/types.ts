@@ -3,3 +3,7 @@ export const SIGN_OUT = 'SIGN_OUT';
 export const START_INITIALIZATION = 'START_INITIALIZATION';
 
 export const SET_THEME = 'SET_THEME';
+
+export const FETCH_USER_DOC = 'GET_USER_DOC';
+export const FETCH_USER_EXPENSES = 'GET_USER_EXPENSES';
+export const FETCH_USER_INCOMES = 'GET_USER_INCOMES';

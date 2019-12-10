@@ -12,17 +12,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp();
+admin.firestore().settings({ timestampsInSnapshots: true });
 exports.onUserCreated = functions
     .region('europe-west1')
     .auth.user()
     .onCreate(({ uid }) => __awaiter(void 0, void 0, void 0, function* () {
-    admin.firestore().settings({ timestampsInSnapshots: true });
     try {
         return yield admin
             .firestore()
-            .collection('users')
-            .add({
-            uid,
+            .doc(`users/${uid}`)
+            .set({
             balance: 0
         });
     }

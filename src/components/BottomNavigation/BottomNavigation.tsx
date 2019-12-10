@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BottomNavigation as BottomNav, BottomNavigationAction } from '@material-ui/core';
-import { FolderRounded, RestoreRounded, FavoriteRounded, LocationOnRounded } from '@material-ui/icons';
+import { DashboardRounded, RestoreRounded, FavoriteRounded, LocationOnRounded } from '@material-ui/icons';
 import styled from 'styled-components';
 
 const StyledBottomNavigation = styled(BottomNav)`
@@ -14,14 +14,14 @@ const StyledBottomNavigation = styled(BottomNav)`
 `;
 
 export const BottomNavigation: React.FC = () => {
-  const [value, setValue] = useState<string>('recents');
+  const [value, setValue] = useState<string>('dashboard');
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
     setValue(newValue);
   };
   return (
     <StyledBottomNavigation value={value} onChange={handleChange}>
-      <BottomNavigationAction label="Recents" value="recents" icon={<FolderRounded />} />
+      <BottomNavigationAction label="Dashboard" value="dashboard" icon={<DashboardRounded />} />
       <BottomNavigationAction label="Favorites" value="favorites" icon={<RestoreRounded />} />
       <BottomNavigationAction label="Nearby" value="nearby" icon={<FavoriteRounded />} />
       <BottomNavigationAction label="Folder" value="folder" icon={<LocationOnRounded />} />

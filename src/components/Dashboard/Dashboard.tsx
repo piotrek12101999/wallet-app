@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Container } from '@material-ui/core';
 
 import TopNavigation from './TopNavigation/TopNavigation';
-import { AccountStatus } from './AccountStatus/AccountStatus';
+import AccountStatus from './AccountStatus/AccountStatus';
 import { PaymentActions } from './PaymentActions/PaymentActions';
 import { ExpensesCarousel } from './ExpensesCarousel/ExpensesCarousel';
 import { Transactions } from './Transactions/Transactions';

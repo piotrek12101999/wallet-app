@@ -4,20 +4,18 @@ import { PaymentRounded, AccountBalanceRounded } from '@material-ui/icons';
 
 const actions = {
   addExpense: {
-    background: '#f4465a',
     icon: <PaymentRounded className="icon" />,
     text: 'Add expense'
   },
   addIncome: {
-    background: '#1DC5D3',
     icon: <AccountBalanceRounded className="icon" />,
     text: 'Add income'
   }
 };
 
-const StyledAction = styled.div<{ background: string }>`
+const StyledAction = styled.div<{ actionType: 'addExpense' | 'addIncome' }>`
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
-  background: ${props => props.background};
+  background: ${props => (props.actionType === 'addExpense' ? props.theme.secondaryColor : props.theme.primaryColor)};
   padding: 10px;
 
   p {
@@ -41,7 +39,7 @@ interface IPaymentActions {
 
 export const PaymentActions: React.FC<IPaymentActions> = ({ actionType }) => {
   return (
-    <StyledAction background={actions[actionType].background}>
+    <StyledAction actionType={actionType}>
       {actions[actionType].icon}
       <p> {actions[actionType].text} </p>
     </StyledAction>

@@ -30,5 +30,5 @@ interface ISetThemeAction {
 export type IUIActions = ISetThemeAction;
 
 export interface IUIInitialState {
-  isDarkThemeEnabled: boolean;
+  readonly isDarkThemeEnabled: boolean;
 }

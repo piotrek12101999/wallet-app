@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import cx from 'classnames';
 import NonPassiveTouchTarget from './NonPassiveTouchTarget';
-// background: ${({ theme }) =>
-//     `linear-gradient(180deg, ${theme.backgroundOnPrimaryColor} 50%, ${theme.background} 50%)`};
+
 const StyledCarouselContainer = styled(NonPassiveTouchTarget)`
   transition: all ease-in-out 0.3s !important;
   background: ${({ theme }) => theme.backgroundOnPrimaryColor};

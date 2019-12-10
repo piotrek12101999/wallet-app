@@ -69,7 +69,7 @@ const ProgressBar = styled.div<{ width: string; left: boolean }>`
   height: 6.5px;
   border-radius: 20px;
   width: ${props => props.width};
-  background: ${props => (props.left ? '#F66C7B' : '#4BD1DC')};
+  background: ${props => (props.left ? props.theme.primaryColor : props.theme.secondaryColor)};
 `;
 
 const StyledCard = styled.div`

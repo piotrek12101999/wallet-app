@@ -35,11 +35,11 @@ export const themes: IThemes = {
   },
   dark: {
     background: '#121212',
-    primaryColor: '#OOF69B',
+    primaryColor: '#BB86FC',
     navColor: '#2D2D2D',
     gridColor: '#1E1E1E',
     backgroundOnPrimaryColor: '#121212',
-    secondaryColor: '#2058F1',
+    secondaryColor: '#03DAC6',
     fontColor: '#fff',
     secondaryFontColor: '#A09FA5'
   }

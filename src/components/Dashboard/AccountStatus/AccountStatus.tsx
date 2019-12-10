@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Doughnut } from 'react-chartjs-2';
 import image from '../../../assets/dashboard-image.png';
+import { IAppState } from '../../../models/store.interfaces';
 
 const AccountStatusContainer = styled.div<{ height: string }>`
   padding: 25px;
@@ -51,7 +53,11 @@ const data = {
   ]
 };
 
-export const AccountStatus: React.FC = () => {
+interface IAccountStatus {
+  balance: number;
+}
+
+const AccountStatus: React.FC<IAccountStatus> = ({ balance }) => {
   const [toggle, setToggle] = useState(true);
 
   const handle = () => setToggle(!toggle);
@@ -60,7 +66,7 @@ export const AccountStatus: React.FC = () => {
       <div className="stats">
         <div className="balance">
           <span className="subtitle"> Total balance </span>
-          <p className="title"> $3200,00 </p>
+          <p className="title"> £{balance} </p>
         </div>
         <img className="img" src={image} alt="expenses" />
       </div>
@@ -70,3 +76,11 @@ export const AccountStatus: React.FC = () => {
     </AccountStatusContainer>
   );
 };
+
+const mapStateToProps = (state: IAppState) => {
+  return {
+    balance: state.fetch.user.balance
+  };
+};
+
+export default connect(mapStateToProps, {})(AccountStatus);
