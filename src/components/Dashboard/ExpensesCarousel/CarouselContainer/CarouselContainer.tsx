@@ -18,7 +18,7 @@ const StyledCarouselTrack = styled(NonPassiveTouchTarget)`
   height: 100%;
 `;
 
-interface ICarouselContainer {
+interface ICarouselContainerProps {
   cursor: number;
   carouselState: {
     active: boolean;
@@ -29,7 +29,7 @@ interface ICarouselContainer {
 export const cardSize = window.innerWidth * 0.935;
 const carouselWidth = window.innerWidth;
 
-export const CarouselContainer: React.FC<ICarouselContainer> = ({
+export const CarouselContainer: React.FC<ICarouselContainerProps> = ({
   cursor,
   carouselState: { active, dragging },
   ...rest

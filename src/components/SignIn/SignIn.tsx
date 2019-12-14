@@ -32,15 +32,14 @@ const ImgContainer = styled.div`
   }
 `;
 
-interface test {
-  toggleTheme: any;
-  currentTheme: any;
+interface ISignInProps {
+  signIn: () => void;
 }
 
-const SignIn: React.FC<test> = (props: any) => {
+const SignIn: React.FC<ISignInProps> = ({ signIn }) => {
   return (
     <Container>
-      <ImgContainer onClick={props.signIn}>
+      <ImgContainer onClick={signIn}>
         <img src={google_icon} alt="google icon" />
       </ImgContainer>
     </Container>

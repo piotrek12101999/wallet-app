@@ -1,4 +1,4 @@
-import { SET_THEME } from '../actions/types';
+import { SET_THEME, TOGGLE_BOTTOM_SHEET } from '../actions/types';
 import { IUIInitialState, IUIActions } from '../models/ui.interfaces';
 
 const recoverSavedState = (): boolean => {
@@ -11,13 +11,19 @@ const recoverSavedState = (): boolean => {
 };
 
 const INITIAL_STATE: IUIInitialState = {
-  isDarkThemeEnabled: recoverSavedState()
+  isDarkThemeEnabled: recoverSavedState(),
+  bottomSheetState: {
+    open: false,
+    type: null
+  }
 };
 
 export default (state = INITIAL_STATE, action: IUIActions): IUIInitialState => {
   switch (action.type) {
     case SET_THEME:
       return { ...state, isDarkThemeEnabled: action.payload };
+    case TOGGLE_BOTTOM_SHEET:
+      return { ...state, bottomSheetState: action.payload };
     default:
       return state;
   }

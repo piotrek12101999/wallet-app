@@ -1,4 +1,4 @@
-import { SET_THEME } from '../actions/types';
+import { SET_THEME, TOGGLE_BOTTOM_SHEET } from '../actions/types';
 
 interface IGlobalSettingTheme {
   borderRadius: number;
@@ -27,8 +27,19 @@ interface ISetThemeAction {
   payload: boolean;
 }
 
-export type IUIActions = ISetThemeAction;
+export interface IBottomSheetState {
+  open: boolean;
+  type: 'addIncome' | 'addExpense' | null;
+}
+
+interface IToggleBottomSheetAction {
+  type: typeof TOGGLE_BOTTOM_SHEET;
+  payload: IBottomSheetState;
+}
+
+export type IUIActions = ISetThemeAction | IToggleBottomSheetAction;
 
 export interface IUIInitialState {
   readonly isDarkThemeEnabled: boolean;
+  readonly bottomSheetState: IBottomSheetState;
 }

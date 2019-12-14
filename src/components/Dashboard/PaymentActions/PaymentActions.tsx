@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { PaymentRounded, AccountBalanceRounded } from '@material-ui/icons';
+import { toggleBottomSheet } from '../../../actions/uiActions';
 
 const actions = {
   addExpense: {
@@ -35,13 +37,16 @@ const StyledAction = styled.div<{ actionType: 'addExpense' | 'addIncome' }>`
 
 interface IPaymentActions {
   actionType: 'addExpense' | 'addIncome';
+  toggleBottomSheet: (type: 'addExpense' | 'addIncome') => void;
 }
 
-export const PaymentActions: React.FC<IPaymentActions> = ({ actionType }) => {
-  return (
-    <StyledAction actionType={actionType}>
+const PaymentActions: React.FC<IPaymentActions> = ({ actionType, toggleBottomSheet }) => (
+  <>
+    <StyledAction onClick={() => toggleBottomSheet(actionType)} actionType={actionType}>
       {actions[actionType].icon}
       <p> {actions[actionType].text} </p>
     </StyledAction>
-  );
-};
+  </>
+);
+
+export default connect(null, { toggleBottomSheet })(PaymentActions);

@@ -1,4 +1,4 @@
-import { SET_THEME } from './types';
+import { SET_THEME, TOGGLE_BOTTOM_SHEET } from './types';
 import { IUIActions } from '../models/ui.interfaces';
 
 export const toggleTheme = (isDarkThemeEnabled: boolean): IUIActions => {
@@ -9,3 +9,11 @@ export const toggleTheme = (isDarkThemeEnabled: boolean): IUIActions => {
     payload: isDarkThemeEnabled
   };
 };
+
+export const toggleBottomSheet = (type: 'addIncome' | 'addExpense' | null): IUIActions => ({
+  type: TOGGLE_BOTTOM_SHEET,
+  payload: {
+    open: !!type,
+    type
+  }
+});

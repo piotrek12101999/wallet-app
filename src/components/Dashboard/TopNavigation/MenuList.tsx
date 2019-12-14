@@ -2,7 +2,7 @@ import React from 'react';
 import { Menu, MenuItem, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { ExitToAppRounded, Brightness4Rounded, Brightness7Rounded } from '@material-ui/icons';
 
-interface IMenuList {
+interface IMenuListProps {
   anchorEl: HTMLElement | null;
   isDarkThemeEnabled: boolean;
   handleClose: () => void;
@@ -10,7 +10,7 @@ interface IMenuList {
   handleSignOut: () => void;
 }
 
-export const MenuList: React.FC<IMenuList> = ({
+export const MenuList: React.FC<IMenuListProps> = ({
   anchorEl,
   isDarkThemeEnabled,
   handleClose,

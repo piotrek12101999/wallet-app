@@ -18,6 +18,23 @@ export const lightThemeColor: Color = {
   A700: '#1dc4d3'
 };
 
+export const secondaryLigthThemeColor: Color = {
+  50: '#1F3077',
+  100: '#1F3077',
+  200: '#1F3077',
+  300: '#1F3077',
+  400: '#1F3077',
+  500: '#1F3077',
+  600: '#1F3077',
+  700: '#1F3077',
+  800: '#1F3077',
+  900: '#1F3077',
+  A100: '#1F3077',
+  A200: '#1F3077',
+  A400: '#1F3077',
+  A700: '#1F3077'
+}
+
 export const themes: IThemes = {
   global: {
     borderRadius: 8,

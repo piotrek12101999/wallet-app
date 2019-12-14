@@ -36,14 +36,14 @@ const TopNavContainer = styled.div`
   }
 `;
 
-interface ITopNavigation {
+interface ITopNavigationProps {
   signOut: () => void;
   toggleTheme: (isLightThemeEnabled: boolean) => void;
   isDarkThemeEnabled: boolean;
   userData: IUser | null;
 }
 
-const TopNavigation: React.FC<ITopNavigation> = ({ signOut, isDarkThemeEnabled, toggleTheme, userData }) => {
+const TopNavigation: React.FC<ITopNavigationProps> = ({ signOut, isDarkThemeEnabled, toggleTheme, userData }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>): void => {

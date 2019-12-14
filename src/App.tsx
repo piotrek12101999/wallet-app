@@ -7,17 +7,20 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { startListeningForAuthChanges } from './actions/authActions';
 import { IAppState } from './models/store.interfaces';
 import { history } from './history';
-import { themes, lightThemeColor } from './themes';
+import { themes, lightThemeColor, secondaryLigthThemeColor } from './themes';
 
 import SignIn from './components/SignIn/SignIn';
 import { InitializingUser } from './components/InitializingUser/InitializingUser';
 import { Dashboard } from './components/Dashboard/Dashboard';
+import BottomSheet from './components/BottomSheet/BottomSheet';
 import { BottomNavigation } from './components/BottomNavigation/BottomNavigation';
 
-const GlobalStyle = createGlobalStyle<{ isDarkThemeEnabled: boolean }>`
+const GlobalStyle = createGlobalStyle<{ isDarkThemeEnabled: boolean; isBottomSheetOpen: boolean }>`
   body {
     margin: 0;
     padding: 0;
+    position: relative;
+    overflow: ${props => (props.isBottomSheetOpen ? 'hidden' : 'unset')};
     background: ${props => (props.isDarkThemeEnabled ? '#121212' : '#f8f9f9')};
     font-family: 'Overpass', sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -35,9 +38,16 @@ interface AppProps {
   isSignedIn: boolean;
   isDarkThemeEnabled: boolean;
   isInitializing: boolean;
+  isBottomSheetOpen: boolean;
 }
 
-const App: React.FC<AppProps> = ({ startListeningForAuthChanges, isSignedIn, isInitializing, isDarkThemeEnabled }) => {
+const App: React.FC<AppProps> = ({
+  startListeningForAuthChanges,
+  isSignedIn,
+  isInitializing,
+  isDarkThemeEnabled,
+  isBottomSheetOpen
+}) => {
   useEffect(() => {
     startListeningForAuthChanges();
   }, [startListeningForAuthChanges]);
@@ -45,6 +55,7 @@ const App: React.FC<AppProps> = ({ startListeningForAuthChanges, isSignedIn, isI
   const MUITheme: Theme = createMuiTheme({
     palette: {
       primary: isDarkThemeEnabled ? grey : lightThemeColor,
+      secondary: secondaryLigthThemeColor,
       type: isDarkThemeEnabled ? 'dark' : 'light'
     }
   });
@@ -53,10 +64,11 @@ const App: React.FC<AppProps> = ({ startListeningForAuthChanges, isSignedIn, isI
     <MuiThemeProvider theme={MUITheme}>
       <ThemeProvider theme={{ ...themes.global, ...themes[theme] }}>
         <>
-          <GlobalStyle isDarkThemeEnabled={isDarkThemeEnabled} />
+          <GlobalStyle isDarkThemeEnabled={isDarkThemeEnabled} isBottomSheetOpen={isBottomSheetOpen} />
           {isInitializing && <InitializingUser />}
           <Router history={history}>
             <Route exact path="/" component={isSignedIn ? Dashboard : SignIn} />
+            {isSignedIn && <BottomSheet />}
             {isSignedIn && <BottomNavigation />}
           </Router>
         </>
@@ -69,7 +81,8 @@ const mapStateToProps = (state: IAppState) => {
   return {
     isSignedIn: state.auth.isSignedIn,
     isInitializing: state.auth.isInitializing,
-    isDarkThemeEnabled: state.ui.isDarkThemeEnabled
+    isDarkThemeEnabled: state.ui.isDarkThemeEnabled,
+    isBottomSheetOpen: state.ui.bottomSheetState.open
   };
 };
 

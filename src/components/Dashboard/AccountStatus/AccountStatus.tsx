@@ -53,11 +53,11 @@ const data = {
   ]
 };
 
-interface IAccountStatus {
+interface IAccountStatusProps {
   balance: number;
 }
 
-const AccountStatus: React.FC<IAccountStatus> = ({ balance }) => {
+const AccountStatus: React.FC<IAccountStatusProps> = ({ balance }) => {
   const [toggle, setToggle] = useState(true);
 
   const handle = () => setToggle(!toggle);
