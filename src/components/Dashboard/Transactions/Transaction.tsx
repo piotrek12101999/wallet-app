@@ -51,7 +51,7 @@ const TransactionContainer = styled.tr`
       width: 45px;
       border-radius: 16px;
       background: white;
-      background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/53/Wikimedia-logo.png');
+      background-image: url('https://logo.clearbit.com/spotify.com');
       background-repeat: no-repeat;
       background-size: contain;
     }

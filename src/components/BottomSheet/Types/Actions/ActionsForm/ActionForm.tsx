@@ -4,7 +4,8 @@ import MomentUtils from '@date-io/moment';
 
 import { Label } from './Label';
 import { Input } from './Input';
-import { IFormState } from '../Action';
+import { AutoSuggest } from './AutoSuggest';
+import { IFormState } from '../action.interface';
 
 interface IActionFormProps {
   formState: IFormState;
@@ -41,6 +42,7 @@ export const ActionForm: React.FC<IActionFormProps> = ({
       includesCalendar
     />
     <Input value={formState.incomeName} setFocused={setFocused} setInputValue={setInputValue} name="incomeName" />
+    <AutoSuggest incomeName={formState.incomeName} setInputValue={setInputValue} />
     <Label text={'Ammount'} />
     <Input value={formState.ammount} setFocused={setFocused} setInputValue={setInputValue} name="ammount" />
   </>

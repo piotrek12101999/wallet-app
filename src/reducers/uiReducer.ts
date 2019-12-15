@@ -15,6 +15,10 @@ const INITIAL_STATE: IUIInitialState = {
   bottomSheetState: {
     open: false,
     type: null
+  },
+  snackbarState: {
+    type: null,
+    message: ''
   }
 };
 

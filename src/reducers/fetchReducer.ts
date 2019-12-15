@@ -1,4 +1,9 @@
-import { FETCH_USER_DOC, FETCH_USER_EXPENSES, FETCH_USER_INCOMES } from '../actions/types';
+import {
+  FETCH_USER_DOC,
+  FETCH_USER_EXPENSES,
+  FETCH_USER_INCOMES,
+  FETCH_USER_EXPENSES_CATEGORIES
+} from '../actions/types';
 import { IFetchInitialState, IFetchActions } from '../models/fetch.interfaces';
 
 const INITIAL_STATE: IFetchInitialState = {
@@ -7,6 +12,7 @@ const INITIAL_STATE: IFetchInitialState = {
     balance: 0
   },
   expenses: [],
+  expensesCategories: [],
   incomes: []
 };
 
@@ -18,6 +24,8 @@ export default (state = INITIAL_STATE, action: IFetchActions): IFetchInitialStat
       return { ...state, expenses: action.payload };
     case FETCH_USER_INCOMES:
       return { ...state, incomes: action.payload };
+    case FETCH_USER_EXPENSES_CATEGORIES:
+      return { ...state, expensesCategories: action.payload };
     default:
       return state;
   }

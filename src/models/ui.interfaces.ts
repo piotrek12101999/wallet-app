@@ -1,4 +1,4 @@
-import { SET_THEME, TOGGLE_BOTTOM_SHEET } from '../actions/types';
+import { SET_THEME, TOGGLE_BOTTOM_SHEET, TOGGLE_SNACKBAR } from '../actions/types';
 
 interface IGlobalSettingTheme {
   borderRadius: number;
@@ -37,9 +37,20 @@ interface IToggleBottomSheetAction {
   payload: IBottomSheetState;
 }
 
-export type IUIActions = ISetThemeAction | IToggleBottomSheetAction;
+export interface ISnackbarState {
+  type: 'success' | 'error' | null;
+  message: string;
+}
+
+interface IToggleSnackbar {
+  type: typeof TOGGLE_SNACKBAR;
+  payload: ISnackbarState;
+}
+
+export type IUIActions = ISetThemeAction | IToggleBottomSheetAction | IToggleSnackbar;
 
 export interface IUIInitialState {
   readonly isDarkThemeEnabled: boolean;
   readonly bottomSheetState: IBottomSheetState;
+  readonly snackbarState: ISnackbarState;
 }

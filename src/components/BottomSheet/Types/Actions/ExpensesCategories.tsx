@@ -1,14 +1,39 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Chip } from '@material-ui/core';
+import { Add } from '@material-ui/icons';
+import { IChip } from './action.interface';
 
-export const ExpensesCategories = () => {
+const ChipsContainer = styled.div`
+  p {
+    padding-top: 8px;
+    font-size: 14px;
+    margin: 0;
+    margin-bottom: 4px;
+    color: gray;
+  }
+
+  div {
+    margin: 3px;
+  }
+`;
+
+interface IExpensesCategoriesProps {
+  chips: IChip[];
+  toggleChipSelect: (chipIndex: number) => void;
+}
+
+export const ExpensesCategories: React.FC<IExpensesCategoriesProps> = ({ chips, toggleChipSelect }) => {
+  const renderChips = () =>
+    chips.map(({ id, name, isSelected }: IChip, index: number) => (
+      <Chip onClick={() => toggleChipSelect(index)} color={isSelected ? 'primary' : 'default'} key={id} label={name} />
+    ));
+
   return (
-    <div className="chips-container">
+    <ChipsContainer>
       <p> Choose a collection </p>
-      <Chip label="Basic" />
-      <Chip label="Ok how bao tads" />
-      <Chip color="primary" label="Lets see this" />
-      <Chip label="Basic" />
-    </div>
+      {renderChips()}
+      <Chip label={'New'} icon={<Add />} />
+    </ChipsContainer>
   );
 };

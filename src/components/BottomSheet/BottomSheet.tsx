@@ -7,7 +7,7 @@ import { IAppState } from '../../models/store.interfaces';
 import { IBottomSheetState } from '../../models/ui.interfaces';
 import { toggleBottomSheet } from '../../actions/uiActions';
 
-import { Action } from './Types/Actions/Action';
+import Action from './Types/Actions/Action';
 
 const Container = styled.div`
   background-color: ${({ theme }) => `${theme.navColor} !important`};
@@ -46,6 +46,12 @@ const Container = styled.div`
   }
 `;
 
+const bottomSheetTypesTitle = {
+  addExpense: 'Add expense',
+  addIncome: 'Add income',
+  default: 'Specify type'
+};
+
 interface IBottomSheetProps {
   bottomSheetState: IBottomSheetState;
   toggleBottomSheet: (type: null) => void;
@@ -65,17 +71,15 @@ export const BottomSheet: React.FC<IBottomSheetProps> = ({ bottomSheetState, tog
         <div className="icon-container">
           <MinimizeRounded className="icon" fontSize="large" />
         </div>
-        <p className="title"> Add Income </p>
-        <Action />
+        <p className="title"> {bottomSheetTypesTitle[bottomSheetState.type || 'default']} </p>
+        <Action type={bottomSheetState.type} />
       </Container>
     </SwipeableBottomSheet>
   );
 };
 
-const mapStateToProps = (state: IAppState) => {
-  return {
-    bottomSheetState: state.ui.bottomSheetState
-  };
-};
+const mapStateToProps = (state: IAppState) => ({
+  bottomSheetState: state.ui.bottomSheetState
+});
 
 export default connect(mapStateToProps, { toggleBottomSheet })(BottomSheet);
