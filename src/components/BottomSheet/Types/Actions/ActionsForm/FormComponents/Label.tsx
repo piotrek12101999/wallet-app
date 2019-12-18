@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Chip } from '@material-ui/core';
 import { CalendarTodayRounded } from '@material-ui/icons';
 import moment from 'moment';
-import { IFormState } from '../action.interface';
+import { IFormState } from '../../action.interface';
 
 interface ILabelProps {
   text: string;

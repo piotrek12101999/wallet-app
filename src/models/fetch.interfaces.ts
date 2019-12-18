@@ -2,30 +2,37 @@ import {
   FETCH_USER_DOC,
   FETCH_USER_EXPENSES,
   FETCH_USER_INCOMES,
-  FETCH_USER_EXPENSES_CATEGORIES
+  FETCH_USER_EXPENSES_CATEGORIES,
+  FETCH_USER_INCOMES_CATEGORIES
 } from '../actions/types';
 
-interface FirestoreDocument {
+interface IFirestoreDocument {
   id: string;
 }
 
-export interface IUserDocument extends FirestoreDocument {
+export interface IUserDocument extends IFirestoreDocument {
   balance: number;
 }
 
-export interface IExpenseDocument extends FirestoreDocument {
+export interface IExpenseData {
   name: string;
+  logo: string | null;
+  ammount: number;
+  date: Date;
+  categories: string[];
+}
+export type IExpenseDocument = IFirestoreDocument & IExpenseData;
+
+export interface IIncomeData {
   ammount: number;
   date: Date;
   categories: string[];
 }
 
-export interface IExpenseCategoryDocument extends FirestoreDocument {
-  name: string;
-}
+export type IIncomeDocument = IFirestoreDocument & IIncomeData;
 
-export interface IIncomeDocument extends FirestoreDocument {
-  ammount: number;
+export interface ICategoryDocument extends IFirestoreDocument {
+  name: string;
 }
 
 interface IFetchUserAction {
@@ -38,25 +45,22 @@ interface IFetchExpensesAction {
   payload: IExpenseDocument[];
 }
 
-interface IFetchExpensesCategoriesAction {
-  type: typeof FETCH_USER_EXPENSES_CATEGORIES;
-  payload: IExpenseCategoryDocument[];
-}
-
 interface IFetchIncomesAction {
   type: typeof FETCH_USER_INCOMES;
   payload: IIncomeDocument[];
 }
 
-export type IFetchActions =
-  | IFetchUserAction
-  | IFetchExpensesAction
-  | IFetchExpensesCategoriesAction
-  | IFetchIncomesAction;
+interface IFetchCategoriesAction {
+  type: typeof FETCH_USER_EXPENSES_CATEGORIES | typeof FETCH_USER_INCOMES_CATEGORIES;
+  payload: ICategoryDocument[];
+}
+
+export type IFetchActions = IFetchUserAction | IFetchExpensesAction | IFetchIncomesAction | IFetchCategoriesAction;
 
 export interface IFetchInitialState {
   readonly user: IUserDocument;
   readonly expenses: IExpenseDocument[];
-  readonly expensesCategories: IExpenseCategoryDocument[];
+  readonly expensesCategories: ICategoryDocument[];
   readonly incomes: IIncomeDocument[];
+  readonly incomesCategories: ICategoryDocument[];
 }

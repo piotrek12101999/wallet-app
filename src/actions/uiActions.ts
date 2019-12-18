@@ -1,5 +1,5 @@
-import { SET_THEME, TOGGLE_BOTTOM_SHEET } from './types';
-import { IUIActions } from '../models/ui.interfaces';
+import { SET_THEME, TOGGLE_BOTTOM_SHEET, TOGGLE_SNACKBAR } from './types';
+import { IUIActions, ISnackbarState } from '../models/ui.interfaces';
 
 export const toggleTheme = (isDarkThemeEnabled: boolean): IUIActions => {
   window.localStorage.setItem('darkTheme', String(isDarkThemeEnabled));
@@ -16,4 +16,9 @@ export const toggleBottomSheet = (type: 'addIncome' | 'addExpense' | null): IUIA
     open: !!type,
     type
   }
+});
+
+export const toggleSnackbar = (payload: ISnackbarState): IUIActions => ({
+  type: TOGGLE_SNACKBAR,
+  payload
 });

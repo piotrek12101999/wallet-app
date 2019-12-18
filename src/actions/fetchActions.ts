@@ -1,17 +1,28 @@
 import { firestore } from './actions';
 import { IFetchInitialState, IFetchActions, IUserDocument } from '../models/fetch.interfaces';
-import { FETCH_USER_DOC, FETCH_USER_EXPENSES, FETCH_USER_INCOMES, FETCH_USER_EXPENSES_CATEGORIES } from './types';
+import {
+  FETCH_USER_DOC,
+  FETCH_USER_EXPENSES,
+  FETCH_USER_INCOMES,
+  FETCH_USER_EXPENSES_CATEGORIES,
+  FETCH_USER_INCOMES_CATEGORIES
+} from './types';
 import { ThunkDispatch } from 'redux-thunk';
 
 interface ICollectionToQuery {
   name: string;
-  type: typeof FETCH_USER_EXPENSES | typeof FETCH_USER_EXPENSES_CATEGORIES | typeof FETCH_USER_INCOMES;
+  type:
+    | typeof FETCH_USER_EXPENSES
+    | typeof FETCH_USER_EXPENSES_CATEGORIES
+    | typeof FETCH_USER_INCOMES
+    | typeof FETCH_USER_INCOMES_CATEGORIES;
 }
 
 const collectionsToQuery: ICollectionToQuery[] = [
   { name: 'expenses', type: FETCH_USER_EXPENSES },
+  { name: 'expenses_categories', type: FETCH_USER_EXPENSES_CATEGORIES },
   { name: 'incomes', type: FETCH_USER_INCOMES },
-  { name: 'expenses_categories', type: FETCH_USER_EXPENSES_CATEGORIES }
+  { name: 'incomes_categories', type: FETCH_USER_INCOMES_CATEGORIES }
 ];
 
 export const fetchUserDoc = (userID: string) => (

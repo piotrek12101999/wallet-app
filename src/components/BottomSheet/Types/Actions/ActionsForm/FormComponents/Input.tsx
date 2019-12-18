@@ -3,8 +3,8 @@ import { TextField } from '@material-ui/core';
 
 interface IInputProps {
   value: string;
-  name: 'incomeName' | 'ammount';
-  setInputValue: (name: 'incomeName' | 'ammount', value: string) => void;
+  name: 'name' | 'ammount';
+  setInputValue: (name: 'name' | 'ammount', value: string) => void;
   setFocused: (isFocused: boolean) => void;
 }
 

@@ -12,6 +12,7 @@ import { themes, lightThemeColor, secondaryLigthThemeColor } from './themes';
 import SignIn from './components/SignIn/SignIn';
 import { InitializingUser } from './components/InitializingUser/InitializingUser';
 import { Dashboard } from './components/Dashboard/Dashboard';
+import Snackbar from './components/Snackbar/Snackbar';
 import BottomSheet from './components/BottomSheet/BottomSheet';
 import { BottomNavigation } from './components/BottomNavigation/BottomNavigation';
 
@@ -68,6 +69,7 @@ const App: React.FC<AppProps> = ({
           {isInitializing && <InitializingUser />}
           <Router history={history}>
             <Route exact path="/" component={isSignedIn ? Dashboard : SignIn} />
+            {isSignedIn && <Snackbar />}
             {isSignedIn && <BottomSheet />}
             {isSignedIn && <BottomNavigation />}
           </Router>

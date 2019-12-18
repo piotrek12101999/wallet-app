@@ -18,12 +18,12 @@ const ChipsContainer = styled.div`
   }
 `;
 
-interface IExpensesCategoriesProps {
+interface ICategoriesProps {
   chips: IChip[];
   toggleChipSelect: (chipIndex: number) => void;
 }
 
-export const ExpensesCategories: React.FC<IExpensesCategoriesProps> = ({ chips, toggleChipSelect }) => {
+export const Categories: React.FC<ICategoriesProps> = ({ chips, toggleChipSelect }) => {
   const renderChips = () =>
     chips.map(({ id, name, isSelected }: IChip, index: number) => (
       <Chip onClick={() => toggleChipSelect(index)} color={isSelected ? 'primary' : 'default'} key={id} label={name} />

@@ -4,12 +4,14 @@ import { Button } from '@material-ui/core';
 import styled from 'styled-components';
 import moment from 'moment';
 
-import { ActionForm } from './ActionsForm/ActionForm';
-import { ExpensesCategories } from './ExpensesCategories';
-import { IExpenseCategoryDocument, IExpenseDocument } from '../../../../models/fetch.interfaces';
-import { addExpense } from '../../../../actions/dbActions';
+import { Categories } from './ExpensesCategories';
+import { toggleBottomSheet } from '../../../../actions/uiActions';
+import { addExpense, addIncome } from '../../../../actions/dbActions';
 import { IAppState } from '../../../../models/store.interfaces';
+import { ICategoryDocument } from '../../../../models/fetch.interfaces';
 import { IActionProps, IActionState, IChip, IActionOwnProps, IActionStateProps } from './action.interface';
+import { ExpenseForm } from './ActionsForm/ExpenseForm';
+import { IncomeForm } from './ActionsForm/IncomeForm';
 
 const Container = styled.div<{ isFormFocused: boolean; bottomMarginHeight: string }>`
   margin-bottom: ${props => (props.isFormFocused ? props.bottomMarginHeight : '0px')};
@@ -29,39 +31,51 @@ class Action extends Component<IActionProps, IActionState> {
       formState: {
         isCalendarOpen: false,
         calendar: moment().format('MM-DD-YYYY'),
-        incomeName: '',
+        name: '',
+        logo: null,
         ammount: ''
       },
       chips: []
     };
   }
 
-  UNSAFE_componentWillReceiveProps = ({ type, expensesCategories }: IActionProps): void => {
+  UNSAFE_componentWillReceiveProps = ({ type, categories }: IActionProps): void => {
     if (type === null) {
       this.setState({
         isFocused: false,
         formState: {
           isCalendarOpen: false,
           calendar: moment().format('MM-DD-YYYY'),
-          incomeName: '',
+          name: '',
+          logo: null,
           ammount: ''
         },
         chips: []
       });
-    } else if (type === 'addExpense' && expensesCategories) {
+    } else {
       this.setState({
-        chips: expensesCategories.map((expense: IExpenseCategoryDocument) => ({ ...expense, isSelected: false }))
+        chips: categories.map((category: ICategoryDocument) => ({ ...category, isSelected: false }))
       });
     }
   };
 
   setFocused = (isFocused: boolean): void => this.setState({ isFocused });
 
-  setInputValue = (name: 'incomeName' | 'ammount', value: string): void => {
+  setInputValue = (name: 'name' | 'ammount', value: string): void => {
     this.setState((prevState: IActionState) => ({
       formState: {
         ...prevState.formState,
+        ...(name === 'name' ? { logo: null } : {}),
         [name]: value
+      }
+    }));
+  };
+
+  setLogoValue = (logo: string | null): void => {
+    this.setState((prevState: IActionState) => ({
+      formState: {
+        ...prevState.formState,
+        logo
       }
     }));
   };
@@ -100,34 +114,42 @@ class Action extends Component<IActionProps, IActionState> {
 
   handleSubmit = (): void => {
     const {
-      formState: { incomeName, ammount },
+      formState: { name, calendar, logo, ammount },
       chips
     } = this.state;
-    const data: IExpenseDocument = {
-      id: '2',
-      name: incomeName,
-      ammount: parseInt(ammount),
-      date: new Date(),
-      categories: chips.filter(chip => chip.isSelected).map(chips => chips.name)
-    };
 
-    this.props.addExpense(data);
+    const { type, addExpense, addIncome, toggleBottomSheet } = this.props;
+    const data = {
+      ammount: parseInt(ammount),
+      date: new Date(calendar),
+      categories: chips.filter(chip => chip.isSelected).map(chip => chip.name)
+    };
+    if (type === 'addIncome') {
+      addIncome(data);
+    } else if (type === 'addExpense') {
+      addExpense({ ...data, name, logo });
+    }
+    toggleBottomSheet(null);
   };
 
   render() {
     const { isFocused, formState, chips } = this.state;
     const { type } = this.props;
-    console.log(this.props);
     return (
       <Container isFormFocused={isFocused} bottomMarginHeight={type === 'addExpense' ? '216px' : '256px'}>
-        <ActionForm
-          formState={formState}
-          handleCalendarStateChange={this.handleCalendarStateChange}
-          handleCalendarChange={this.handleCalendarChange}
-          setInputValue={this.setInputValue}
-          setFocused={this.setFocused}
-        />
-        {type === 'addExpense' && <ExpensesCategories toggleChipSelect={this.toggleChipSelect} chips={chips} />}
+        {type === 'addExpense' ? (
+          <ExpenseForm
+            formState={formState}
+            setFocused={this.setFocused}
+            handleCalendarChange={this.handleCalendarChange}
+            handleCalendarStateChange={this.handleCalendarStateChange}
+            setInputValue={this.setInputValue}
+            setLogoValue={this.setLogoValue}
+          />
+        ) : (
+          <IncomeForm formState={formState} setFocused={this.setFocused} setInputValue={this.setInputValue} />
+        )}
+        <Categories toggleChipSelect={this.toggleChipSelect} chips={chips} />
         <Button onClick={this.handleSubmit} className="button" variant="contained">
           Add expense
         </Button>
@@ -136,8 +158,8 @@ class Action extends Component<IActionProps, IActionState> {
   }
 }
 
-const mapStateToProps = (state: IAppState, { type }: IActionOwnProps): IActionStateProps => ({
-  ...(type === 'addExpense' ? { expensesCategories: state.fetch.expensesCategories } : {})
+const mapStateToProps = ({ fetch }: IAppState, { type }: IActionOwnProps): IActionStateProps => ({
+  categories: type === 'addExpense' ? fetch.expensesCategories : fetch.incomesCategories
 });
 
-export default connect(mapStateToProps, { addExpense })(Action);
+export default connect(mapStateToProps, { addExpense, addIncome, toggleBottomSheet })(Action);

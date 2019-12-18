@@ -1,4 +1,4 @@
-import { SET_THEME, TOGGLE_BOTTOM_SHEET } from '../actions/types';
+import { SET_THEME, TOGGLE_BOTTOM_SHEET, TOGGLE_SNACKBAR } from '../actions/types';
 import { IUIInitialState, IUIActions } from '../models/ui.interfaces';
 
 const recoverSavedState = (): boolean => {
@@ -28,6 +28,8 @@ export default (state = INITIAL_STATE, action: IUIActions): IUIInitialState => {
       return { ...state, isDarkThemeEnabled: action.payload };
     case TOGGLE_BOTTOM_SHEET:
       return { ...state, bottomSheetState: action.payload };
+    case TOGGLE_SNACKBAR:
+      return { ...state, snackbarState: { type: action.payload.type, message: action.payload.message } };
     default:
       return state;
   }

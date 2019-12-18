@@ -1,9 +1,9 @@
 import { firestore } from './actions';
 import { IAppState } from '../models/store.interfaces';
-import { IExpenseDocument } from '../models/fetch.interfaces';
+import { IExpenseData, IIncomeData } from '../models/fetch.interfaces';
 import { ThunkDispatch } from 'redux-thunk';
-import { IUIActions } from '../models/ui.interfaces';
-import { TOGGLE_SNACKBAR } from './types';
+import { IUIActions, IUIInitialState } from '../models/ui.interfaces';
+import { addItemToCollectionInFirestore } from './sharedFunctions';
 
 export const addExpenseCategory = (data: any) => async (dispatch: any, getState: () => IAppState) => {
   const {
@@ -15,7 +15,20 @@ export const addExpenseCategory = (data: any) => async (dispatch: any, getState:
   }
 };
 
-export const addExpense = (data: IExpenseDocument) => async (
+export const addExpense = (data: IExpenseData) => async (
+  dispatch: ThunkDispatch<IUIInitialState, undefined, IUIActions>,
+  getState: () => IAppState
+): Promise<void> => {
+  const {
+    auth: { userData }
+  } = getState();
+
+  if (userData) {
+    addItemToCollectionInFirestore('expenses', userData.uid, data, dispatch, 'Expense has been added 💸');
+  }
+};
+
+export const addIncome = (data: IIncomeData) => async (
   dispatch: ThunkDispatch<IUIActions, undefined, IUIActions>,
   getState: () => IAppState
 ): Promise<void> => {
@@ -24,11 +37,6 @@ export const addExpense = (data: IExpenseDocument) => async (
   } = getState();
 
   if (userData) {
-    try {
-      await firestore.collection(`/users/${userData.uid}/expenses`).add(data);
-      dispatch({ type: TOGGLE_SNACKBAR, payload: { type: 'success', message: 'Expense has been added 💸' } });
-    } catch (error) {
-      dispatch({ type: TOGGLE_SNACKBAR, payload: { type: 'error', message: 'Sorry there was a problem 😔' } });
-    }
+    addItemToCollectionInFirestore('incomes', userData.uid, data, dispatch, 'Income has been added 💸');
   }
 };

@@ -1,15 +1,17 @@
-import { IExpenseDocument, IExpenseCategoryDocument } from '../../../../models/fetch.interfaces';
+import { ICategoryDocument, IExpenseData, IIncomeData } from '../../../../models/fetch.interfaces';
 
 export interface IActionOwnProps {
   type: 'addExpense' | 'addIncome' | null;
 }
 
 export interface IActionStateProps {
-  expensesCategories?: IExpenseCategoryDocument[];
+  categories: ICategoryDocument[];
 }
 
 interface IActionDispatchProps {
-  addExpense: (data: IExpenseDocument) => void;
+  addExpense: (data: IExpenseData) => void;
+  addIncome: (data: IIncomeData) => void;
+  toggleBottomSheet: (type: null) => void;
 }
 
 export type IActionProps = IActionOwnProps & IActionStateProps & IActionDispatchProps;
@@ -17,11 +19,12 @@ export type IActionProps = IActionOwnProps & IActionStateProps & IActionDispatch
 export interface IFormState {
   isCalendarOpen: boolean;
   calendar: string;
-  incomeName: string;
+  name: string;
+  logo: string | null;
   ammount: string;
 }
 
-export interface IChip extends IExpenseCategoryDocument {
+export interface IChip extends ICategoryDocument {
   isSelected: boolean;
 }
 
