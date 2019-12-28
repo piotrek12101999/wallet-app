@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button } from '@material-ui/core';
 import styled from 'styled-components';
 import moment from 'moment';
 
@@ -13,13 +12,16 @@ import { IActionProps, IActionState, IChip, IActionOwnProps, IActionStateProps }
 import { ExpenseForm } from './ActionsForm/ExpenseForm';
 import { IncomeForm } from './ActionsForm/IncomeForm';
 
-const Container = styled.div<{ isFormFocused: boolean; bottomMarginHeight: string }>`
-  margin-bottom: ${props => (props.isFormFocused ? props.bottomMarginHeight : '0px')};
-  transition: margin-bottom 0.2s ease-in;
-
+const Container = styled.div`
   .button {
-    border-radius: 16px;
+    border-radius: 24px;
+    padding: 10px;
     width: 100%;
+    font-size: 16px;
+    margin-top: 24px;
+    margin-bottom: 12px;
+    background: rgba(0, 0, 0, 0.075);
+    border: solid 1px rgba(0, 0, 0, 0.075);
   }
 `;
 
@@ -27,7 +29,6 @@ class Action extends Component<IActionProps, IActionState> {
   constructor(props: IActionProps) {
     super(props);
     this.state = {
-      isFocused: false,
       formState: {
         isCalendarOpen: false,
         calendar: moment().format('MM-DD-YYYY'),
@@ -42,7 +43,6 @@ class Action extends Component<IActionProps, IActionState> {
   UNSAFE_componentWillReceiveProps = ({ type, categories }: IActionProps): void => {
     if (type === null) {
       this.setState({
-        isFocused: false,
         formState: {
           isCalendarOpen: false,
           calendar: moment().format('MM-DD-YYYY'),
@@ -58,8 +58,6 @@ class Action extends Component<IActionProps, IActionState> {
       });
     }
   };
-
-  setFocused = (isFocused: boolean): void => this.setState({ isFocused });
 
   setInputValue = (name: 'name' | 'ammount', value: string): void => {
     this.setState((prevState: IActionState) => ({
@@ -119,40 +117,47 @@ class Action extends Component<IActionProps, IActionState> {
     } = this.state;
 
     const { type, addExpense, addIncome, toggleBottomSheet } = this.props;
+
+    const date: Date = calendar === moment().format('MM-DD-YYYY') ? new Date() : new Date(calendar);
+
     const data = {
-      ammount: parseInt(ammount),
-      date: new Date(calendar),
+      ammount: parseFloat(ammount),
+      date,
       categories: chips.filter(chip => chip.isSelected).map(chip => chip.name)
     };
+
     if (type === 'addIncome') {
       addIncome(data);
     } else if (type === 'addExpense') {
-      addExpense({ ...data, name, logo });
+      addExpense({
+        ...data,
+        name,
+        ...(logo ? { logo } : {})
+      });
     }
     toggleBottomSheet(null);
   };
 
   render() {
-    const { isFocused, formState, chips } = this.state;
+    const { formState, chips } = this.state;
     const { type } = this.props;
     return (
-      <Container isFormFocused={isFocused} bottomMarginHeight={type === 'addExpense' ? '216px' : '256px'}>
-        {type === 'addExpense' ? (
+      <Container>
+        {type === 'addIncome' ? (
+          <IncomeForm formState={formState} setInputValue={this.setInputValue} />
+        ) : (
           <ExpenseForm
             formState={formState}
-            setFocused={this.setFocused}
             handleCalendarChange={this.handleCalendarChange}
             handleCalendarStateChange={this.handleCalendarStateChange}
             setInputValue={this.setInputValue}
             setLogoValue={this.setLogoValue}
           />
-        ) : (
-          <IncomeForm formState={formState} setFocused={this.setFocused} setInputValue={this.setInputValue} />
         )}
         <Categories toggleChipSelect={this.toggleChipSelect} chips={chips} />
-        <Button onClick={this.handleSubmit} className="button" variant="contained">
-          Add expense
-        </Button>
+        <button onClick={this.handleSubmit} className="button">
+          {type === 'addExpense' ? 'Add expense' : 'Add income'}
+        </button>
       </Container>
     );
   }

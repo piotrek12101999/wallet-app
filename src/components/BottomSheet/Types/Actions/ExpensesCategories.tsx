@@ -9,12 +9,18 @@ const ChipsContainer = styled.div`
     padding-top: 8px;
     font-size: 14px;
     margin: 0;
-    margin-bottom: 4px;
+    margin-top: 12px;
+    margin-bottom: 8px;
     color: gray;
   }
 
   div {
     margin: 3px;
+  }
+
+  & > .selected {
+    background: #1dc5d3 !important;
+    color: white;
   }
 `;
 
@@ -26,7 +32,7 @@ interface ICategoriesProps {
 export const Categories: React.FC<ICategoriesProps> = ({ chips, toggleChipSelect }) => {
   const renderChips = () =>
     chips.map(({ id, name, isSelected }: IChip, index: number) => (
-      <Chip onClick={() => toggleChipSelect(index)} color={isSelected ? 'primary' : 'default'} key={id} label={name} />
+      <Chip onClick={() => toggleChipSelect(index)} className={isSelected ? 'selected' : ''} key={id} label={name} />
     ));
 
   return (

@@ -5,8 +5,8 @@ import { Container } from '@material-ui/core';
 import TopNavigation from './TopNavigation/TopNavigation';
 import AccountStatus from './AccountStatus/AccountStatus';
 import PaymentActions from './PaymentActions/PaymentActions';
-import { ExpensesCarousel } from './ExpensesCarousel/ExpensesCarousel';
-import { Transactions } from './Transactions/Transactions';
+import ExpensesCarousel from './ExpensesCarousel/ExpensesCarousel';
+import Transactions from './Transactions/Transactions';
 
 const StyledContainer = styled(Container)`
   background: ${({ theme }) => theme.backgroundOnPrimaryColor};

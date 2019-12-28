@@ -27,8 +27,11 @@ export const startListeningForAuthChanges = () => (
 
 export const signIn = () => async (): Promise<void> => {
   provider.addScope('https://www.googleapis.com/auth/userinfo.profile');
-
-  await auth.signInWithPopup(provider);
+  try {
+    await auth.signInWithPopup(provider);
+  } catch (error) {
+    window.alert(error);
+  }
 };
 
 export const signOut = () => async (

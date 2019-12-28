@@ -9,7 +9,6 @@ import { IFormState } from '../action.interface';
 
 interface IExpenseFormProps {
   formState: IFormState;
-  setFocused: (isFocused: boolean) => void;
   handleCalendarChange: <T extends unknown>(_: T, date: string | null | undefined) => void;
   handleCalendarStateChange: (isOpened: boolean) => void;
   setInputValue: (name: 'name' | 'ammount', value: string) => void;
@@ -17,7 +16,6 @@ interface IExpenseFormProps {
 }
 
 export const ExpenseForm: React.FC<IExpenseFormProps> = ({
-  setFocused,
   setInputValue,
   setLogoValue,
   formState,
@@ -43,9 +41,9 @@ export const ExpenseForm: React.FC<IExpenseFormProps> = ({
       handleCalendarStateChange={handleCalendarStateChange}
       includesCalendar
     />
-    <Input value={formState.name} setFocused={setFocused} setInputValue={setInputValue} name="name" />
+    <Input value={formState.name} setInputValue={setInputValue} name="name" />
     <AutoSuggest name={formState.name} setLogoValue={setLogoValue} setInputValue={setInputValue} />
     <Label text={'Ammount'} />
-    <Input value={formState.ammount} setFocused={setFocused} setInputValue={setInputValue} name="ammount" />
+    <Input value={formState.ammount} setInputValue={setInputValue} name="ammount" />
   </>
 );

@@ -3,8 +3,9 @@ import * as admin from 'firebase-admin';
 admin.initializeApp();
 admin.firestore().settings({ timestampsInSnapshots: true });
 
+const REGION = 'europe-west1';
 export const onUserCreated = functions
-  .region('europe-west1')
+  .region(REGION)
   .auth.user()
   .onCreate(async ({ uid }) => {
     try {

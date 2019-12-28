@@ -29,7 +29,6 @@ export interface IChip extends ICategoryDocument {
 }
 
 export interface IActionState {
-  isFocused: boolean;
   formState: IFormState;
   chips: IChip[];
 }

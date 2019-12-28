@@ -16,7 +16,7 @@ export interface IUserDocument extends IFirestoreDocument {
 
 export interface IExpenseData {
   name: string;
-  logo: string | null;
+  logo?: string;
   ammount: number;
   date: Date;
   categories: string[];
@@ -63,4 +63,9 @@ export interface IFetchInitialState {
   readonly expensesCategories: ICategoryDocument[];
   readonly incomes: IIncomeDocument[];
   readonly incomesCategories: ICategoryDocument[];
+}
+
+export interface IUnixTimestamp {
+  seconds: number;
+  nanoseconds: number;
 }

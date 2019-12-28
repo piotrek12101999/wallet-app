@@ -1,25 +1,34 @@
 import React from 'react';
-import { TextField } from '@material-ui/core';
+import { TextField, InputAdornment } from '@material-ui/core';
+import styled from 'styled-components';
+
+const StyledInputAdornment = styled(InputAdornment)`
+  & > p {
+    font-size: 24px !important;
+  }
+`;
 
 interface IInputProps {
   value: string;
   name: 'name' | 'ammount';
   setInputValue: (name: 'name' | 'ammount', value: string) => void;
-  setFocused: (isFocused: boolean) => void;
 }
 
-export const Input: React.FC<IInputProps> = ({ value, name, setInputValue, setFocused }) => {
+export const Input: React.FC<IInputProps> = ({ value, name, setInputValue }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => setInputValue(name, event.target.value);
-
-  const handleFormFocusChange = (isFocused: boolean): void => setFocused(isFocused);
 
   return (
     <TextField
       onChange={handleChange}
       value={value}
-      InputProps={{ style: { fontSize: 25 } }}
-      onFocus={() => handleFormFocusChange(true)}
-      onBlur={() => handleFormFocusChange(false)}
+      InputProps={{
+        style: { fontSize: 25 },
+        ...(name === 'ammount'
+          ? {
+              startAdornment: <StyledInputAdornment position="start">£</StyledInputAdornment>
+            }
+          : {})
+      }}
       color="secondary"
       fullWidth
     />

@@ -6,13 +6,12 @@ import { IFormState } from '../action.interface';
 
 interface IExpenseFormProps {
   formState: IFormState;
-  setFocused: (isFocused: boolean) => void;
   setInputValue: (name: 'name' | 'ammount', value: string) => void;
 }
 
-export const IncomeForm: React.FC<IExpenseFormProps> = ({ setFocused, setInputValue, formState }) => (
+export const IncomeForm: React.FC<IExpenseFormProps> = ({ setInputValue, formState }) => (
   <>
     <Label text={'Ammount'} />
-    <Input value={formState.ammount} setFocused={setFocused} setInputValue={setInputValue} name="ammount" />
+    <Input value={formState.ammount} setInputValue={setInputValue} name="ammount" />
   </>
 );

@@ -52,18 +52,18 @@ const App: React.FC<AppProps> = ({
   useEffect(() => {
     startListeningForAuthChanges();
   }, [startListeningForAuthChanges]);
-  const theme = isDarkThemeEnabled ? 'dark' : 'light';
+  const type = isDarkThemeEnabled ? 'dark' : 'light';
   const MUITheme: Theme = createMuiTheme({
     palette: {
       primary: isDarkThemeEnabled ? grey : lightThemeColor,
       secondary: secondaryLigthThemeColor,
-      type: isDarkThemeEnabled ? 'dark' : 'light'
+      type
     }
   });
 
   return (
     <MuiThemeProvider theme={MUITheme}>
-      <ThemeProvider theme={{ ...themes.global, ...themes[theme] }}>
+      <ThemeProvider theme={{ ...themes.global, ...themes[type] }}>
         <>
           <GlobalStyle isDarkThemeEnabled={isDarkThemeEnabled} isBottomSheetOpen={isBottomSheetOpen} />
           {isInitializing && <InitializingUser />}
@@ -79,13 +79,11 @@ const App: React.FC<AppProps> = ({
   );
 };
 
-const mapStateToProps = (state: IAppState) => {
-  return {
-    isSignedIn: state.auth.isSignedIn,
-    isInitializing: state.auth.isInitializing,
-    isDarkThemeEnabled: state.ui.isDarkThemeEnabled,
-    isBottomSheetOpen: state.ui.bottomSheetState.open
-  };
-};
+const mapStateToProps = (state: IAppState) => ({
+  isSignedIn: state.auth.isSignedIn,
+  isInitializing: state.auth.isInitializing,
+  isDarkThemeEnabled: state.ui.isDarkThemeEnabled,
+  isBottomSheetOpen: state.ui.bottomSheetState.open
+});
 
 export default connect(mapStateToProps, { startListeningForAuthChanges })(App);

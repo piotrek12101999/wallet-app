@@ -1,7 +1,20 @@
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 import { firestore } from './actions';
 import { ThunkDispatch } from 'redux-thunk';
 import { IUIInitialState, IUIActions } from '../models/ui.interfaces';
 import { TOGGLE_SNACKBAR } from './types';
+
+export const updateBalance = async (uid: string, ammount: number) => {
+  try {
+    const balance = firebase.firestore.FieldValue.increment(ammount);
+    await firestore.doc(`users/${uid}`).update({
+      balance
+    });
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 
 export const addItemToCollectionInFirestore = async <T>(
   collectionName: string,

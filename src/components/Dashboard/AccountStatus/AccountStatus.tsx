@@ -66,7 +66,7 @@ const AccountStatus: React.FC<IAccountStatusProps> = ({ balance }) => {
       <div className="stats">
         <div className="balance">
           <span className="subtitle"> Total balance </span>
-          <p className="title"> £{balance} </p>
+          <p className="title"> £{` ${balance.toFixed(2)}`} </p>
         </div>
         <img className="img" src={image} alt="expenses" />
       </div>

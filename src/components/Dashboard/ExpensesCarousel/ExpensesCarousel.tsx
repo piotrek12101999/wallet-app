@@ -1,76 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import TouchCarousel from 'react-touch-carousel';
 import { CarouselContainer, cardSize } from './CarouselContainer/CarouselContainer';
-
-const Stats = styled.div`
-  margin-left: auto;
-  margin-right: auto;
-  width: 343px;
-  margin-left: auto;
-  margin-right: auto;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
-  padding: 10px;
-  border-radius: 10px;
-  background: ${({ theme }) => theme.gridColor};
-
-  & > p {
-    margin: 0;
-  }
-
-  & > div {
-    display: flex;
-    justify-content: space-between;
-
-    & > .day {
-      font-size: 22px;
-      margin: 0;
-      color: ${({ theme }) => theme.fontColor};
-    }
-
-    & > div {
-      display: flex;
-      justify-content: space-around;
-
-      & > div {
-        margin-left: 5px;
-        margin-right: 5px;
-
-        & > p {
-          margin: 0;
-        }
-
-        & > .ammount {
-          color: ${({ theme }) => theme.fontColor};
-
-          &.--minus::first-letter {
-            color: red;
-          }
-
-          &.--plus::first-letter {
-            color: green;
-          }
-        }
-
-        & > .spent {
-          font-weight: 300;
-          font-size: 15px;
-          color: ${({ theme }) => theme.secondaryFontColor};
-        }
-      }
-    }
-  }
-`;
-
-const ProgressBar = styled.div<{ width: string; left: boolean }>`
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 33%;
-  height: 6.5px;
-  border-radius: 20px;
-  width: ${props => props.width};
-  background: ${props => (props.left ? props.theme.primaryColor : props.theme.secondaryColor)};
-`;
+import { IAppState } from '../../../models/store.interfaces';
+import { CarouselCard } from './CarouselCard';
+import { IExpenseDocument } from '../../../models/fetch.interfaces';
 
 const StyledCard = styled.div`
   height: 100%;
@@ -83,30 +18,75 @@ const StyledCard = styled.div`
   }
 `;
 
-export const ExpensesCarousel: React.FC = () => {
+function calculateDateFromNow(numberOfDaysToCalculate: number): Date {
+  const date: Date = new Date();
+  return new Date(date.setDate(date.getDate() - numberOfDaysToCalculate));
+}
+
+function calculateExpenses(expensesArray: IExpenseDocument[], dateRange: Date): number {
+  return expensesArray
+    .filter(expense => expense.date >= dateRange)
+    .reduce((accumulator, expense) => accumulator + expense.ammount, 0);
+}
+
+interface IExpenseCarouselProps {
+  expenses: IExpenseDocument[];
+  balance: number;
+}
+
+export interface IDateStats {
+  name: 'Today' | 'Week' | 'Month';
+  expense: number;
+  balance: number;
+}
+interface IExpenseCarouselState {
+  dayToWeek: null | IDateStats;
+  dayToMonth: null | IDateStats;
+  weekToMonth: null | IDateStats;
+}
+
+const ExpensesCarousel: React.FC<IExpenseCarouselProps> = ({ expenses, balance }) => {
+  const [carouselState, setCarouselState] = useState<IExpenseCarouselState>({
+    dayToWeek: null,
+    dayToMonth: null,
+    weekToMonth: null
+  });
+
+  useEffect(() => {
+    const date: Date = new Date();
+    const lastWeekDate: Date = calculateDateFromNow(7);
+    const lastMonthDate: Date = calculateDateFromNow(date.getDate());
+    const thisDayExpenses: number = calculateExpenses(expenses, new Date(date.setHours(0, 0, 0)));
+    const thisWeekExpenses: number = calculateExpenses(expenses, lastWeekDate);
+    const thisMonthExpenses: number = calculateExpenses(expenses, lastMonthDate);
+    setCarouselState(prevState => ({
+      ...prevState,
+      dayToWeek: {
+        name: 'Today',
+        expense: thisDayExpenses,
+        balance: balance + thisDayExpenses
+      },
+      dayToMonth: {
+        name: 'Week',
+        expense: thisWeekExpenses,
+        balance: balance + thisWeekExpenses
+      },
+      weekToMonth: {
+        name: 'Today',
+        expense: thisWeekExpenses,
+        balance: balance + thisMonthExpenses
+      }
+    }));
+  }, [expenses, balance]);
+
   const renderCard = (index: number): JSX.Element => {
+    const names = ['Today', 'Week', 'Month'];
+    const data =
+      index === 0 ? carouselState.dayToWeek : index === 1 ? carouselState.weekToMonth : carouselState.dayToMonth;
     return (
       <StyledCard key={index}>
         <div className="expense-container">
-          <Stats>
-            <div>
-              <p className="day"> Today </p>
-              <div>
-                <div>
-                  <p className="spent"> Spent </p>
-                  <p className="ammount --minus"> : $280</p>
-                </div>
-                <div>
-                  <p className="spent"> Income </p>
-                  <p className="ammount --plus"> : $280</p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <ProgressBar width="33%" left />
-              <ProgressBar width="66%" left={false} />
-            </div>
-          </Stats>
+          <CarouselCard name={names[index]} cardData={data} />
         </div>
       </StyledCard>
     );
@@ -123,3 +103,10 @@ export const ExpensesCarousel: React.FC = () => {
     />
   );
 };
+
+const mapStateToProps = (state: IAppState) => ({
+  expenses: state.fetch.expenses,
+  balance: state.fetch.user.balance
+});
+
+export default connect(mapStateToProps, {})(ExpensesCarousel);

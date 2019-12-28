@@ -1,5 +1,5 @@
 import { firestore } from './actions';
-import { IFetchInitialState, IFetchActions, IUserDocument } from '../models/fetch.interfaces';
+import { IFetchInitialState, IFetchActions, IUserDocument, IUnixTimestamp } from '../models/fetch.interfaces';
 import {
   FETCH_USER_DOC,
   FETCH_USER_EXPENSES,
@@ -39,15 +39,29 @@ export const fetchUserDoc = (userID: string) => (
   });
 };
 
-const createCollectionQueryPrefix = (userID: string, collectionName: string): firebase.firestore.CollectionReference =>
-  firestore.collection(`users/${userID}/${collectionName}`);
+const createCollectionQueryPrefix = (userID: string, collectionName: string): firebase.firestore.Query => {
+  const prefix = firestore.collection(`users/${userID}/${collectionName}`);
+
+  if (collectionName === 'expenses' || collectionName === 'expenses') {
+    return prefix.orderBy('date', 'desc');
+  }
+
+  return prefix;
+};
+
+const transformUnixDates = (unixDate: IUnixTimestamp): Date => new Date(unixDate.seconds * 1000);
 
 export const fetchCollectionsData = (userID: string) => (
   dispatch: ThunkDispatch<IFetchInitialState, undefined, IFetchActions>
 ) => {
   collectionsToQuery.forEach(({ name, type }) => {
     createCollectionQueryPrefix(userID, name).onSnapshot((snapshot: firebase.firestore.QuerySnapshot) => {
-      const payload = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      let payload = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      if (type === FETCH_USER_INCOMES || type === FETCH_USER_EXPENSES) {
+        // @ts-ignore
+        payload = payload.map(doc => ({ ...doc, date: transformUnixDates(doc.date) }));
+      }
+
       // @ts-ignore
       dispatch({ type, payload });
     });
